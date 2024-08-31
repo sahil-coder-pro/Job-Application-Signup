@@ -3,7 +3,7 @@ import path from "path"
 
 // multer configuration
 
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
     destination: function(req, file, cb) { // here, file variable is the file incoming from the client side, req is the incoming request and cb is the callback method
         cb(null, "./public/temp")
     },
