@@ -7,13 +7,13 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 const addNewApplicant = asyncHandler( async (req, res) => {
 
     const {name, email, state} = req.body ;
-    const resumeLocalPath = req.file.path ;
+    const resumeLocalPath = req.file?.path ;
     // console.log(req) ;
 
     // check is any field is not present
     if ([name, email, state].some((field) => field?.trim() === "")) {
         res.status(400).json({
-            message: "all fields are mandatory",
+            message: "All fields are mandatory",
             status: 400,
         })
 
@@ -27,7 +27,7 @@ const addNewApplicant = asyncHandler( async (req, res) => {
 
     if (existingUser) {
         res.status(409).json({
-            message: "email already exists",
+            message: "User with this email already exists",
             status: 409,
             user: {name: existingUser.name, email: existingUser.email, state: existingUser.state, resume: existingUser.resume}
         })
@@ -40,7 +40,7 @@ const addNewApplicant = asyncHandler( async (req, res) => {
     // check if file path is recieved
     if (!resumeLocalPath) {
         res.status(403).json({
-            message: "resume is required",
+            message: "Resume is required",
             status: 403,
         })
 
@@ -79,7 +79,7 @@ const addNewApplicant = asyncHandler( async (req, res) => {
     }
 
     res.status(201).json({
-        message: "Applicant added successfully",
+        message: "Applicant registered successfully",
         status: 201,
         user : {
             name: createUser.name,
