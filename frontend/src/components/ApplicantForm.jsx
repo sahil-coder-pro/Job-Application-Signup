@@ -8,25 +8,6 @@ export const  ApplicantForm = ({setShowRegister}) => {
   const { register, watch,  handleSubmit, formState: { errors } } = useForm();
 
   const [isSubmitting, setIsSubmitting] = useState(false) ;
-  const submitted = useRef(0) ;
-
-  useEffect(() => {
-    
-    if (submitted.current === 3) {
-      toast.info("Redirecting To Main Page", {
-        position: "top-center",
-        onClose: () =>{
-          setShowRegister(false) ;
-        }
-      })
-    }
-    else {
-      submitted.current++ ;
-    }
-  
-    
-  }, [isSubmitting])
-  
 
   const onSubmit = async (data) => {
 
@@ -47,13 +28,6 @@ export const  ApplicantForm = ({setShowRegister}) => {
       // console.log(response.data);
 
       toast.success(response.data.message, {
-        position: "top-center"
-      });
-
-    } catch (error) {
-      console.error("There was an error uploading the file!", error);
-
-      toast.error(error.response?.data?.message || error.message || "Some Error Occurred", {
         position: "top-center",
         onClose: ()=> {
           
@@ -63,8 +37,23 @@ export const  ApplicantForm = ({setShowRegister}) => {
               setShowRegister(false) ;
             }
           })
-          
         }
+      });
+
+    } catch (error) {
+      console.error("There was an error uploading the file!", error);
+
+      toast.error(error.response?.data?.message || error.message || "Some Error Occurred", {
+        position: "top-center",
+        // onClose: ()=> {
+          
+        //   toast.info("Redirecting To Main Page", {
+        //     position: "top-center",
+        //     onClose: () =>{
+        //       setShowRegister(false) ;
+        //     }
+        //   })
+        // }
       });
     }
 
@@ -130,7 +119,7 @@ export const  ApplicantForm = ({setShowRegister}) => {
             />
             {errors.resume && <span className="text-red-500 text-sm">{errors.resume.message}</span>}
           </div>
-          <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md mt-4 hover:bg-blue-600 transition duration-300">
+          <button disabled = {isSubmitting} type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md mt-4 hover:bg-blue-600 transition duration-300">
             {isSubmitting? "Sending..." : "Submit"}
           </button>
         </form>

@@ -41,6 +41,10 @@ connectToDatabase()
 // add routes
 import userRouter from "./src/routes/user.route.js"
 
+app.get("/", (req, res) => {
+    res.send("This is the server")
+})
+
 app.use("/api/v1/users", userRouter) ;
 
 app.listen(PORT, () => {
