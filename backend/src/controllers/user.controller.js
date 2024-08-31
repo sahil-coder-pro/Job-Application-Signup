@@ -7,7 +7,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 const addNewApplicant = asyncHandler( async (req, res) => {
 
     const {name, email, state} = req.body ;
-    const resumeLocalPath = req.file?.path ;
+    const resumeBuffer = req.file?.buffer ;
     // console.log(req) ;
 
     // check is any field is not present
@@ -17,7 +17,7 @@ const addNewApplicant = asyncHandler( async (req, res) => {
             status: 400,
         })
 
-        unlinkFiles(resumeLocalPath) ;
+        // unlinkFiles(resumeLocalPath) ;
 
         return ;
     }
@@ -32,25 +32,25 @@ const addNewApplicant = asyncHandler( async (req, res) => {
             user: {name: existingUser.name, email: existingUser.email, state: existingUser.state, resume: existingUser.resume}
         })
 
-        unlinkFiles(resumeLocalPath) ;
+        // unlinkFiles(resumeLocalPath) ;
 
         return ;
     }
 
     // check if file path is recieved
-    if (!resumeLocalPath) {
+    if (!resumeBuffer) {
         res.status(403).json({
             message: "Resume is required",
             status: 403,
         })
 
-        unlinkFiles(resumeLocalPath) ;
+        // unlinkFiles(resumeLocalPath) ;
 
         return ;
     }
 
     // try to upload the resume to cloudinary
-    const cloudinary_Resume_Upload_Response = await uploadOnCloudinary(resumeLocalPath) ;
+    const cloudinary_Resume_Upload_Response = await uploadOnCloudinary(resumeBuffer) ;
 
     if (!cloudinary_Resume_Upload_Response) {
         res.status(500).json({
@@ -58,16 +58,16 @@ const addNewApplicant = asyncHandler( async (req, res) => {
             status: 500,
         })
 
-        unlinkFiles(resumeLocalPath) ;
+        // unlinkFiles(resumeLocalPath) ;
 
         return ;
     }
 
-    // console.log("CLOUDINARY RESPONSE",cloudinary_Resume_Upload_Response)
+    console.log("CLOUDINARY RESPONSE",  cloudinary_Resume_Upload_Response)
 
     const createUser = await User.create({
         name, email, state, 
-        resume: cloudinary_Resume_Upload_Response.url ,
+        resume: cloudinary_Resume_Upload_Response.secure_url ,
     })
 
     if (!createUser) {

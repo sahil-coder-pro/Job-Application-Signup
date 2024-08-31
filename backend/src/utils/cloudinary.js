@@ -10,38 +10,31 @@ cloudinary.config({
 
 
 
-const uploadOnCloudinary = async (localFilePath) => {
-
-    // console.log("In upload func", localFilePath) ;
-
+const uploadOnCloudinary = async (resumeBuffer) => {
     try {
-        if (!localFilePath) return null ;
-        // upload the file to cloudinary
+        if (!resumeBuffer) return null;
 
+        // Wrap the upload_stream in a Promise
+        const uploadResponse = await new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                { resource_type: "auto" },
+                (error, result) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(result);
+                    }
+                }
+            );
+            stream.end(resumeBuffer);
+        });
 
-        const uploadResponse = await cloudinary.uploader.upload(localFilePath, {
-            resource_type: "auto",
-        })   
-        
-        // file has been uploaded
-        // console.log("file is uploaded") ;
-        // console.log(uploadResponse) ;
-        
-        // now after checking that this works, using console logs we need to unlink the files from the server also
-        
-        
-        fs.unlinkSync(localFilePath) ;
-        
-        return uploadResponse ;
-
-    }    
-    catch(error) {
-        fs.unlinkSync(localFilePath) ; // remove the locally saved temporary file as upload operation got failed
-        
-        console.error(error) ;
-
-        return null ;
-    }    
-}    
+        // Successfully uploaded, return the response
+        return uploadResponse;
+    } catch (error) {
+        console.error("Error uploading to Cloudinary:", error);
+        return null;
+    }
+};
 
 export { uploadOnCloudinary }; 
