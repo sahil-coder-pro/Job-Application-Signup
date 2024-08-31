@@ -34,7 +34,7 @@ export function LandingPage({setShowRegister}) {
           
           
           {/* submit button */}
-          <button onClick={() => setShowRegister(true)}  className=" bg-gradient-to-r from-purple-700 via-pink-400 to-orange-600  px-4 sm:px-0 text-lg sm:text-xl text-white sm:w-1/6 py-4 rounded-lg font-medium">Register Today</button>
+          <button onClick={() => setShowRegister(true)}  className=" bg-gradient-to-r from-purple-700 via-pink-400 to-orange-600  px-4  text-lg sm:text-xl text-white sm:w-1/6 py-4 rounded-lg font-medium">Register Today</button>
 
         </div>
       </div>

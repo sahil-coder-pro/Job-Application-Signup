@@ -67,6 +67,15 @@ export const  ApplicantForm = ({setShowRegister}) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
       <div className="w-full max-w-md bg-gray-100  rounded-lg shadow-md p-6 mx-5">
+
+        <span>
+
+        <svg onClick={() => setShowRegister(false)}  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10 rounded-full hover:cursor-pointer hover:bg-gray-200 p-2 inline ">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+        </svg>
+        </span>
+
+
         <h2 className="text-3xl font-semibold text-center mb-6">Sign Up</h2>
         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
           <div className="mb-4">
@@ -74,7 +83,7 @@ export const  ApplicantForm = ({setShowRegister}) => {
             <input
               type="text"
               {...register("name", { required: "Name is required" })}
-              className={`w-full px-3 bg-gray-50 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full px-3 bg-gray-50 py-2 mt-1 border focus:outline-none focus:ring-2 ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
             />
             {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
           </div>
@@ -86,7 +95,7 @@ export const  ApplicantForm = ({setShowRegister}) => {
             <input
               type="email"
               {...register("email", { required: "Email is required" })}
-              className={`w-full bg-gray-50 px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full bg-gray-50 px-3 py-2 mt-1 border  focus:outline-none focus:ring-2 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
             />
             {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
           </div>
@@ -96,7 +105,7 @@ export const  ApplicantForm = ({setShowRegister}) => {
             <input
               type="text"
               {...register("state", { required: "State is required" })}
-              className={`w-full px-3 bg-gray-50 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 ${errors.state ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full px-3 bg-gray-50 py-2 mt-1 border focus:outline-none focus:ring-2 ${errors.state ? 'border-red-500' : 'border-gray-300'}`}
             />
             {errors.state && <span className="text-red-500 text-sm">{errors.state.message}</span>}
           </div>
@@ -119,7 +128,7 @@ export const  ApplicantForm = ({setShowRegister}) => {
             />
             {errors.resume && <span className="text-red-500 text-sm">{errors.resume.message}</span>}
           </div>
-          <button disabled = {isSubmitting} type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md mt-4 hover:bg-blue-600 transition duration-300">
+          <button disabled = {isSubmitting} type="submit" className="w-full bg-blue-500 text-white py-2  mt-4 hover:bg-blue-600 transition duration-300">
             {isSubmitting? "Sending..." : "Submit"}
           </button>
         </form>
